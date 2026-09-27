@@ -1,0 +1,66 @@
+@page
+@model MVCPractice.Pages.AuthorPages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].Nickname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].Biography)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author[0].BookAuthors)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Author) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Nickname)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Biography)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BookAuthors)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AuthorId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AuthorId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AuthorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

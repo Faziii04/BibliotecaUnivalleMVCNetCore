@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Iniciar sesion";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-1">Biblioteca UPV</h1>
+                <p class="text-muted">Universidad Privada del Valle - Sede Sucre</p>
+                <hr />
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="usuario@upv.edu.bo" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

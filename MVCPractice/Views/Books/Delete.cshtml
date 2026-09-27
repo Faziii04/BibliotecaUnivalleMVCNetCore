@@ -1,0 +1,28 @@
+@model MVCPractice.Models.Book
+@{
+    ViewData["Title"] = "Eliminar libro";
+}
+
+<h1 class="h3 mb-3">Eliminar libro</h1>
+
+<div class="alert alert-warning">Confirme que desea eliminar este libro.</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Titulo</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Categoria</dt>
+            <dd class="col-sm-9">@(Model.Category ?? "-")</dd>
+
+            <dt class="col-sm-3">Stock</dt>
+            <dd class="col-sm-9">@Model.Stock</dd>
+        </dl>
+    </div>
+</div>
+
+<form method="post" asp-action="Delete" asp-route-id="@Model.LibroId">
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>

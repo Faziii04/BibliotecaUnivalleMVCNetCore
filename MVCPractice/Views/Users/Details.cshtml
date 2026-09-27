@@ -1,0 +1,75 @@
+@model MVCPractice.Models.User
+@{
+    ViewData["Title"] = "Detalle del usuario";
+    var rol = Model.Role.Trim();
+}
+
+<h1 class="h3 mb-3">@Model.FirstName @Model.LastName</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Correo</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Rol</dt>
+            <dd class="col-sm-9">@rol</dd>
+
+            <dt class="col-sm-3">Telefono</dt>
+            <dd class="col-sm-9">@(Model.PhoneNumber ?? "-")</dd>
+
+            <dt class="col-sm-3">Direccion</dt>
+            <dd class="col-sm-9">@(Model.Address ?? "-")</dd>
+
+            <dt class="col-sm-3">Fecha de nacimiento</dt>
+            <dd class="col-sm-9">@(Model.Birthday?.ToString("dd/MM/yyyy") ?? "-")</dd>
+        </dl>
+    </div>
+</div>
+
+<h2 class="h5">Prestamos solicitados</h2>
+
+@if (!Model.Loans.Any())
+{
+    <div class="alert alert-info">El usuario no tiene prestamos registrados.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha</th>
+                    <th>Dias</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var loan in Model.Loans.OrderByDescending(l => l.LoanDate))
+                {
+                    <tr>
+                        <td>@loan.Libro.Name</td>
+                        <td>@loan.LoanDate.ToString("dd/MM/yyyy")</td>
+                        <td>@(loan.LoanDurationDays?.ToString() ?? "-")</td>
+                        <td>
+                            @if (loan.IsReturned)
+                            {
+                                <span class="badge bg-success">Devuelto</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Prestado</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="mt-3">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.UsuarioId">Editar</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Volver al listado</a>
+</div>

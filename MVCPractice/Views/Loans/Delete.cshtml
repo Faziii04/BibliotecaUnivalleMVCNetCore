@@ -1,0 +1,28 @@
+@model MVCPractice.Models.Loan
+@{
+    ViewData["Title"] = "Eliminar prestamo";
+}
+
+<h1 class="h3 mb-3">Eliminar prestamo</h1>
+
+<div class="alert alert-warning">Confirme que desea eliminar este prestamo.</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Libro</dt>
+            <dd class="col-sm-9">@Model.Libro.Name</dd>
+
+            <dt class="col-sm-3">Usuario</dt>
+            <dd class="col-sm-9">@Model.Usuario.FirstName @Model.Usuario.LastName</dd>
+
+            <dt class="col-sm-3">Fecha</dt>
+            <dd class="col-sm-9">@Model.LoanDate.ToString("dd/MM/yyyy")</dd>
+        </dl>
+    </div>
+</div>
+
+<form method="post" asp-action="Delete" asp-route-id="@Model.BorrowId">
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>

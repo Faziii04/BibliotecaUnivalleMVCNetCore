@@ -1,0 +1,39 @@
+@model MVCPractice.ViewModels.LoanFormModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="LibroId" class="form-label"></label>
+        <select asp-for="LibroId" asp-items="ViewBag.Libros" class="form-select">
+            <option value="">Seleccione un libro</option>
+        </select>
+        <span asp-validation-for="LibroId" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="UsuarioId" class="form-label"></label>
+        <select asp-for="UsuarioId" asp-items="ViewBag.Usuarios" class="form-select">
+            <option value="">Seleccione un usuario</option>
+        </select>
+        <span asp-validation-for="UsuarioId" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="LoanDate" class="form-label"></label>
+        <input asp-for="LoanDate" class="form-control" type="date" />
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="LoanDurationDays" class="form-label"></label>
+        <input asp-for="LoanDurationDays" class="form-control" type="number" min="1" max="365" />
+        <span asp-validation-for="LoanDurationDays" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="IsReturned" class="form-label d-block"></label>
+        <div class="form-check form-switch mt-2">
+            <input asp-for="IsReturned" class="form-check-input" />
+        </div>
+        <div class="form-text">Marque si el libro ya fue devuelto.</div>
+    </div>
+</div>

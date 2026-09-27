@@ -1,0 +1,22 @@
+@model MVCPractice.ViewModels.BookFormModel
+@{
+    ViewData["Title"] = "Editar libro";
+}
+
+<h1 class="h3 mb-3">Editar libro</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="LibroId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <partial name="_Form" model="Model" />
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

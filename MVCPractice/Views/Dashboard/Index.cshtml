@@ -1,0 +1,180 @@
+@model MVCPractice.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var esAdmin = User.IsInRole("Administrador");
+    var esBibliotecario = esAdmin || User.IsInRole("Bibliotecario");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-0">Hola, @Model.Usuario.FirstName</h1>
+        <span class="text-muted">Rol: <strong>@Model.Rol</strong></span>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Libros</div>
+                <div class="fs-3 fw-bold">@Model.CantidadLibros</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Ejemplares en stock</div>
+                <div class="fs-3 fw-bold">@Model.EjemplaresDisponibles</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Prestamos activos</div>
+                <div class="fs-3 fw-bold text-warning">@Model.PrestamosActivos</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Prestamos devueltos</div>
+                <div class="fs-3 fw-bold text-success">@Model.PrestamosDevueltos</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Accesos de mi rol</div>
+    <div class="card-body d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" asp-controller="Books" asp-action="Index">@(esBibliotecario ? "Libros" : "Catalogo de libros")</a>
+        <a class="btn btn-primary" asp-controller="Loans" asp-action="Index">Prestamos</a>
+        @if (esAdmin)
+        {
+            <a class="btn btn-primary" asp-controller="Users" asp-action="Index">Usuarios</a>
+        }
+    </div>
+</div>
+
+@if (esBibliotecario)
+{
+    <h2 class="h5">Prestamos registrados</h2>
+
+    @if (Model.Prestamos.Count == 0)
+    {
+        <div class="alert alert-info">Todavia no hay prestamos registrados.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Libro</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                        <th>Dias</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prestamo in Model.Prestamos)
+                    {
+                        <tr>
+                            <td>@prestamo.Libro.Name</td>
+                            <td>@prestamo.Usuario.Email</td>
+                            <td>@prestamo.LoanDate.ToString("dd/MM/yyyy")</td>
+                            <td>@(prestamo.LoanDurationDays ?? 0)</td>
+                            <td>
+                                @if (prestamo.IsReturned)
+                                {
+                                    <span class="badge bg-success">Devuelto</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Prestado</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+else
+{
+    <h2 class="h5">Mis prestamos</h2>
+
+    @if (Model.Prestamos.Count == 0)
+    {
+        <div class="alert alert-info">Todavia no solicito prestamos.</div>
+    }
+    else
+    {
+        <div class="table-responsive mb-4">
+            <table class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Libro</th>
+                        <th>Fecha</th>
+                        <th>Dias</th>
+                        <th>Devolucion</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prestamo in Model.Prestamos)
+                    {
+                        <tr>
+                            <td>@prestamo.Libro.Name</td>
+                            <td>@prestamo.LoanDate.ToString("dd/MM/yyyy")</td>
+                            <td>@(prestamo.LoanDurationDays ?? 0)</td>
+                            <td>@(prestamo.ReturnDate?.ToString("dd/MM/yyyy") ?? "-")</td>
+                            <td>
+                                @if (prestamo.IsReturned)
+                                {
+                                    <span class="badge bg-success">Devuelto</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Prestado</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <h2 class="h5">Libros disponibles</h2>
+
+    @if (Model.Catalogo.Count == 0)
+    {
+        <div class="alert alert-info">No hay libros disponibles en este momento.</div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var libro in Model.Catalogo)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h6 mb-1">@libro.Name</h3>
+                            <div class="text-muted small mb-2">@(libro.Category ?? "Sin categoria")</div>
+                            <span class="badge bg-success">@libro.Stock disponibles</span>
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="Books" asp-action="Details" asp-route-id="@libro.LibroId">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

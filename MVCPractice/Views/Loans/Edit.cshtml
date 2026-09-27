@@ -1,0 +1,22 @@
+@model MVCPractice.ViewModels.LoanFormModel
+@{
+    ViewData["Title"] = "Editar prestamo";
+}
+
+<h1 class="h3 mb-3">Editar prestamo</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="BorrowId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <partial name="_Form" model="Model" />
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

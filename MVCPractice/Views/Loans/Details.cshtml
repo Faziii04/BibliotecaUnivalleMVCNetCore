@@ -1,0 +1,50 @@
+@model MVCPractice.Models.Loan
+@{
+    ViewData["Title"] = "Detalle del prestamo";
+}
+
+<h1 class="h3 mb-3">Prestamo #@Model.BorrowId</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Libro</dt>
+            <dd class="col-sm-9">@Model.Libro.Name</dd>
+
+            <dt class="col-sm-3">Usuario</dt>
+            <dd class="col-sm-9">@Model.Usuario.FirstName @Model.Usuario.LastName (@Model.Usuario.Email)</dd>
+
+            <dt class="col-sm-3">Fecha del prestamo</dt>
+            <dd class="col-sm-9">@Model.LoanDate.ToString("dd/MM/yyyy") @Model.LoanTime.ToString("HH:mm")</dd>
+
+            <dt class="col-sm-3">Dias de prestamo</dt>
+            <dd class="col-sm-9">@(Model.LoanDurationDays ?? 0)</dd>
+
+            <dt class="col-sm-3">Fecha de devolucion</dt>
+            <dd class="col-sm-9">@(Model.ReturnDate?.ToString("dd/MM/yyyy") ?? "Pendiente")</dd>
+
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">
+                @if (Model.IsReturned)
+                {
+                    <span class="badge bg-success">Devuelto</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">Prestado</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mb-3">
+    @if (!Model.IsReturned)
+    {
+        <form method="post" asp-action="Return" asp-route-id="@Model.BorrowId" class="d-inline">
+            <button type="submit" class="btn btn-success">Registrar devolucion</button>
+        </form>
+    }
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.BorrowId">Editar</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Volver al listado</a>
+</div>

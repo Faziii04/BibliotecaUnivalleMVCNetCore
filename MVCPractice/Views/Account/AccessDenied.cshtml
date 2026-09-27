@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Acceso denegado";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-6">Acceso denegado</h1>
+    <p class="text-muted">Su rol no tiene permisos para ver esta seccion.</p>
+    <a class="btn btn-primary" asp-controller="Dashboard" asp-action="Index">Ir a mi dashboard</a>
+    <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline">
+        <button type="submit" class="btn btn-outline-secondary">Cambiar de usuario</button>
+    </form>
+</div>

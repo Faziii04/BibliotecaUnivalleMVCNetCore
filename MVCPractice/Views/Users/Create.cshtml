@@ -1,0 +1,21 @@
+@model MVCPractice.ViewModels.UserFormModel
+@{
+    ViewData["Title"] = "Nuevo usuario";
+}
+
+<h1 class="h3 mb-3">Nuevo usuario</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <partial name="_Form" model="Model" />
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

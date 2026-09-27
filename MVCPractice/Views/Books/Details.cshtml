@@ -1,0 +1,54 @@
+@model MVCPractice.Models.Book
+@{
+    ViewData["Title"] = "Detalle del libro";
+    var esBibliotecario = User.IsInRole("Administrador") || User.IsInRole("Bibliotecario");
+}
+
+<h1 class="h3 mb-3">@Model.Name</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Categoria</dt>
+            <dd class="col-sm-9">@(Model.Category ?? "-")</dd>
+
+            <dt class="col-sm-3">Edad</dt>
+            <dd class="col-sm-9">@(Model.AgeGroup ?? "-")</dd>
+
+            <dt class="col-sm-3">Formato</dt>
+            <dd class="col-sm-9">@(Model.Format ?? "-")</dd>
+
+            <dt class="col-sm-3">Paginas</dt>
+            <dd class="col-sm-9">@(Model.Lenght ?? 0)</dd>
+
+            <dt class="col-sm-3">Precio</dt>
+            <dd class="col-sm-9">@(Model.Price.HasValue ? Model.Price.Value.ToString("N2") : "-")</dd>
+
+            <dt class="col-sm-3">Publicacion</dt>
+            <dd class="col-sm-9">@(Model.PublishingDate?.ToString("dd/MM/yyyy") ?? "-")</dd>
+
+            <dt class="col-sm-3">Stock</dt>
+            <dd class="col-sm-9">@Model.Stock</dd>
+
+            <dt class="col-sm-3">Autores</dt>
+            <dd class="col-sm-9">
+                @if (Model.BookAuthors.Any())
+                {
+                    @string.Join(", ", Model.BookAuthors.Select(ba => ba.Author.FirstName + " " + ba.Author.LastName))
+                }
+                else
+                {
+                    <span class="text-muted">Sin autores</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mb-3">
+    @if (esBibliotecario)
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.LibroId">Editar</a>
+    }
+    <a class="btn btn-outline-secondary" asp-action="Index">Volver al listado</a>
+</div>
